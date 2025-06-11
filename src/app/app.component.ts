@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-
+import { ThreeSceneComponent } from './components/three-scene/three-scene.component';
+import { ScreenComponent } from './components/screen/screen.component';
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [ThreeSceneComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

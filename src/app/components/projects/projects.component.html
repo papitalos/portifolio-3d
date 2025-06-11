@@ -1,0 +1,80 @@
+<div class="projects-container">
+  <div class="projects-content">
+    <!-- Header Section -->
+    <header class="projects-header">
+      <h1>PORTFÓLIO DE PROJETOS</h1>
+      <p class="subtitle">Desenvolvedor Full Stack</p>
+    </header>
+
+    <!-- Navigation/Menu -->
+    <nav class="projects-nav">
+      <button class="nav-btn active" (click)="onNavClick('projects')">PROJETOS</button>
+      <button class="nav-btn" (click)="onNavClick('sobre')">SOBRE</button>
+      <button class="nav-btn" (click)="onNavClick('contato')">CONTATO</button>
+      <button class="nav-btn" (click)="onNavClick('github')">GITHUB</button>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="projects-main">
+      <!-- Projects Grid -->
+      <section class="projects-grid">
+        <h2>PROJETOS EM DESTAQUE</h2>
+        
+        <!-- Project Card Template -->
+        <div class="project-card">
+          <div class="project-image">
+            <div class="placeholder">PROJETO 1</div>
+          </div>
+          <div class="project-info">
+            <h3>Nome do Projeto</h3>
+            <p>Descrição breve do projeto aqui...</p>
+            <div class="project-tech">
+              <span class="tech-tag">Angular</span>
+              <span class="tech-tag">TypeScript</span>
+              <span class="tech-tag">Three.js</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="project-link" (click)="onProjectClick('Projeto 1'); $event.preventDefault()">Ver Projeto</a>
+              <a href="#" class="project-link" (click)="onGitHubClick('Projeto 1'); $event.preventDefault()">GitHub</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add more project cards here -->
+        <div class="project-card">
+          <div class="project-image">
+            <div class="placeholder">PROJETO 2</div>
+          </div>
+          <div class="project-info">
+            <h3>Outro Projeto</h3>
+            <p>Descrição de outro projeto...</p>
+            <div class="project-tech">
+              <span class="tech-tag">React</span>
+              <span class="tech-tag">Node.js</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="project-link" (click)="onProjectClick('Projeto 2'); $event.preventDefault()">Ver Projeto</a>
+              <a href="#" class="project-link" (click)="onGitHubClick('Projeto 2'); $event.preventDefault()">GitHub</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Skills Section -->
+      <section class="skills-section">
+        <h2>TECNOLOGIAS</h2>
+        <div class="skills-grid">
+          <div class="skill-item" (click)="onNavClick('frontend')">Frontend</div>
+          <div class="skill-item" (click)="onNavClick('backend')">Backend</div>
+          <div class="skill-item" (click)="onNavClick('database')">Database</div>
+          <div class="skill-item" (click)="onNavClick('devops')">DevOps</div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="projects-footer">
+      <p>Pressione ESC para voltar</p>
+    </footer>
+  </div>
+</div>
