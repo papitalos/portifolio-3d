@@ -48,13 +48,14 @@ export class ThreeSceneComponent implements AfterViewInit, OnDestroy {
   //#endregion
 
   //#region LookAt Animation Variables
-  private initialLookAt = new THREE.Vector3(0, 0, 0); 
-  private targetLookAt = new THREE.Vector3(-0.063, 0.384, 0); 
-  private currentLookAt = new THREE.Vector3(0, 0, 0); 
+  private initialLookAt = new THREE.Vector3(0, 0, 0);
+  private targetLookAt = new THREE.Vector3(-0.063, 0.384, 0);
+  private currentLookAt = new THREE.Vector3(0, 0, 0);
   //#endregion
 
   //#region Screen Activation Control
   isScreenActive = false;
+  private resizeHandler = this.onWindowResize.bind(this);
   //#endregion
 
   //#region Constructor
@@ -163,7 +164,7 @@ export class ThreeSceneComponent implements AfterViewInit, OnDestroy {
 
   private setupEventListeners(): void {
     if (typeof window !== 'undefined') {
-      window.addEventListener('resize', this.onWindowResize.bind(this));
+      window.addEventListener('resize', this.resizeHandler);
     }
   }
   //#endregion
@@ -588,7 +589,7 @@ export class ThreeSceneComponent implements AfterViewInit, OnDestroy {
   }
 
   private cleanupEventListeners(): void {
-    window.removeEventListener('resize', this.onWindowResize.bind(this));
+    window.removeEventListener('resize', this.resizeHandler);
   }
   //#endregion
 }
