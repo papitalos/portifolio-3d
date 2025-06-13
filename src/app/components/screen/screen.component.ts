@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewChild, ViewContainerRef, Type } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
+import { NavigationProvider, NavigationState } from '../../providers/navigation.provider';
 
 @Component({
   selector: 'app-screen',
@@ -10,54 +12,50 @@ import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, HostListener
 })
 export class ScreenComponent implements OnInit, OnDestroy {
   @Input() isActive: boolean = false;
-  @Output() keyPressed = new EventEmitter<KeyboardEvent>();
-  @Output() screenChange = new EventEmitter<string>();
 
-  private keyboardListenerEnabled = false;
+  // Componente atual a ser renderizado
+  currentComponent: Type<any> | null = null;
+
+  // Subject para cleanup de subscriptions
+  private destroy$ = new Subject<void>();
+
+  constructor(private navigationProvider: NavigationProvider) {}
 
   ngOnInit() {
-    // Habilitar listener de teclado quando a tela estiver ativa
-    setTimeout(() => {
-      this.enableKeyboardListener();
-    }, 3000); // Aguardar 3 segundos após a tela aparecer
+    // Subscrever às mudanças de navegação
+    this.navigationProvider.currentState$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((state: NavigationState) => {
+        this.updateCurrentComponent(state);
+      });
+
+    console.log('📺 Screen Orchestrator inicializado');
   }
 
   ngOnDestroy() {
-    this.disableKeyboardListener();
+    this.destroy$.next();
+    this.destroy$.complete();
+    console.log('📺 Screen Orchestrator destruído');
   }
 
-  @HostListener('window:keydown', ['$event'])
-  onKeyDown(event: KeyboardEvent) {
-    if (this.isActive && this.keyboardListenerEnabled) {
-      console.log('🎹 Tecla pressionada:', event.key);
-      this.keyPressed.emit(event);
-      this.navigateToProjects();
-      
-      // Desabilitar para evitar múltiplos triggers
-      this.disableKeyboardListener();
-    }
-  }
-
+  /**
+   * Método público para ativar a tela (chamado pelo three-scene component)
+   */
   activate() {
     this.isActive = true;
-    // Aguardar um pouco antes de habilitar o teclado
-    setTimeout(() => {
-      this.enableKeyboardListener();
-    }, 2000);
+    console.log('📺 Screen ativada - Componente atual sendo renderizado');
   }
 
-  private enableKeyboardListener() {
-    this.keyboardListenerEnabled = true;
-    console.log('⌨️ Listener de teclado ATIVADO - Pressione qualquer tecla para continuar');
-  }
-
-  private disableKeyboardListener() {
-    this.keyboardListenerEnabled = false;
-    console.log('⌨️ Listener de teclado DESATIVADO');
-  }
-
-  private navigateToProjects() {
-    console.log('🚀 Navegando para tela de projetos...');
-    this.screenChange.emit('projects');
+  /**
+   * Atualiza o componente atual baseado no estado de navegação
+   */
+  private updateCurrentComponent(state: NavigationState) {
+    this.currentComponent = state.component;
+    console.log(`📺 Renderizando componente: ${state.screenName} (${state.route})`);
+    
+    // Se houver dados, pode ser útil para componentes filhos
+    if (state.data && Object.keys(state.data).length > 0) {
+      console.log('📦 Dados da navegação:', state.data);
+    }
   }
 }

@@ -42,14 +42,14 @@ export class ThreeSceneComponent implements AfterViewInit, OnDestroy {
 
   //#region Animation Control Variables
   private initialCameraPos = new THREE.Vector3(-7, 7, 10);
-  private targetCameraPos = new THREE.Vector3(-0.065, 0.39, 3.5);
+  private targetCameraPos = new THREE.Vector3(-0.063, 0.384, 3.5);
   private lerpProgress = 0;
   private animationCompleted = false;
   //#endregion
 
   //#region LookAt Animation Variables
   private initialLookAt = new THREE.Vector3(0, 0, 0); 
-  private targetLookAt = new THREE.Vector3(-0.065, 0.39, 0); 
+  private targetLookAt = new THREE.Vector3(-0.063, 0.384, 0); 
   private currentLookAt = new THREE.Vector3(0, 0, 0); 
   //#endregion
 
@@ -113,7 +113,7 @@ export class ThreeSceneComponent implements AfterViewInit, OnDestroy {
 
   private setupLighting(): void {
     // Luz ambiente muito sutil
-    const ambientLight = new THREE.AmbientLight(0x404040, 0.15);
+    const ambientLight = new THREE.AmbientLight(0x404040, 0.34);
     this.scene.add(ambientLight);
   }
 

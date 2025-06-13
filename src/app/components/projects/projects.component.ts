@@ -1,5 +1,6 @@
-import { Component, Output, EventEmitter, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NavigationProvider } from '../../providers/navigation.provider';
 
 @Component({
   selector: 'app-projects',
@@ -9,7 +10,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './projects.component.scss'
 })
 export class ProjectsComponent implements OnInit, OnDestroy {
-  @Output() backToTerminal = new EventEmitter<void>();
+
+  constructor(private navigationProvider: NavigationProvider) {}
 
   ngOnInit() {
     console.log('📋 Tela de projetos carregada - Pressione ESC para voltar');
@@ -22,19 +24,26 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
     if (event.key === 'Escape') {
-      console.log('⬅️ Tecla ESC pressionada - Voltando ao terminal');
+      console.log('⬅️ Tecla ESC pressionada - Voltando ao BIOS via NavigationProvider');
       this.goBack();
     }
   }
 
   private goBack() {
-    this.backToTerminal.emit();
+    this.navigationProvider.navigate('/bios');
   }
 
   // Métodos para futuras funcionalidades
   onNavClick(section: string) {
     console.log(`🔗 Navegando para: ${section}`);
-    // Implementar navegação interna aqui
+
+    if (section === 'projects') {
+      this.navigationProvider.navigate('/projects');
+    } else if (section === 'sobre') {
+      this.navigationProvider.navigate('/sobre');
+    } else if (section === 'contato') {
+      this.navigationProvider.navigate('/contato');
+    }
   }
 
   onProjectClick(projectName: string) {

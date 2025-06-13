@@ -1,21 +1,5 @@
-.projects-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(135deg, #000000 0%, #001100 50%, #000000 100%);
-  color: #0f0;
-  font-family: 'Courier New', 'Lucida Console', monospace;
-  overflow-y: auto;
-  z-index: 2000;
-}
 
-.projects-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px 20px;
-  min-height: 100vh;
+.projects-container {
   display: flex;
   flex-direction: column;
 }
