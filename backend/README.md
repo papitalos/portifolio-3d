@@ -10,6 +10,9 @@ This directory contains a simple Express server that exposes REST endpoints for 
 
 The API will be available on `http://localhost:3000` by default.
 
+CORS is enabled automatically so the Angular frontend on `http://localhost:4200`
+can consume the API without additional configuration.
+
 ### Endpoints
 
 - `GET /api/projetos` – Returns the list of projects with their stacks and
