@@ -1,0 +1,13 @@
+{
+  "name": "portfolio-monorepo",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "start": "node scripts/start.js",
+    "install:all": "pnpm install --recursive"
+  },
+  "devDependencies": {}
+}
