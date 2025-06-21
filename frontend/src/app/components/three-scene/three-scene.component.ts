@@ -10,6 +10,8 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import * as THREE from 'three';
 import { CommonModule } from '@angular/common';
 import { ScreenComponent } from '../screen/screen.component';
+import { NavigationProvider } from '../../providers/navigation.provider';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-three-scene',
@@ -58,22 +60,30 @@ export class ThreeSceneComponent implements AfterViewInit, OnDestroy {
   private resizeHandler = this.onWindowResize.bind(this);
   //#endregion
 
+  //#region Theme Handling
+  private currentTheme: string = 'bios';
+  private navSub = new Subscription();
+  //#endregion
+
   //#region Constructor
-  constructor(private ngZone: NgZone) { }
+  constructor(private ngZone: NgZone, private navigation: NavigationProvider) { }
   //#endregion
 
   //#region Lifecycle Methods
   ngAfterViewInit(): void {
     if (typeof window !== 'undefined') {
+      this.currentTheme = this.navigation.getCurrentState().theme || 'bios';
       this.ngZone.runOutsideAngular(() => {
         this.initThreeJsScene();
         this.startAnimationLoop();
       });
+      this.subscribeToNavigation();
     }
   }
 
   ngOnDestroy(): void {
     this.cleanupResources();
+    this.navSub.unsubscribe();
   }
   //#endregion
 
@@ -167,6 +177,15 @@ export class ThreeSceneComponent implements AfterViewInit, OnDestroy {
       window.addEventListener('resize', this.resizeHandler);
     }
   }
+
+  private subscribeToNavigation(): void {
+    this.navSub = this.navigation.currentState$.subscribe((state) => {
+      if (state.theme && state.theme !== this.currentTheme) {
+        this.currentTheme = state.theme;
+        this.applyTheme();
+      }
+    });
+  }
   //#endregion
 
   //#region Screen Control System
@@ -246,9 +265,10 @@ export class ThreeSceneComponent implements AfterViewInit, OnDestroy {
   }
 
   private applyFlickerMaterial(): void {
+    const isBios = this.currentTheme === 'bios';
     const flickerMaterial = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(0x000800),
-      emissive: new THREE.Color(0x002200),
+      color: new THREE.Color(isBios ? 0x000800 : 0x111111),
+      emissive: new THREE.Color(isBios ? 0x002200 : 0x333333),
       emissiveIntensity: 0.4,
       transparent: false,
       side: THREE.DoubleSide
@@ -258,7 +278,8 @@ export class ThreeSceneComponent implements AfterViewInit, OnDestroy {
   }
 
   private addTemporaryLight(duration: number): void {
-    const tempLight = new THREE.RectAreaLight(0x00ff00, 6, 0.3, 0.2);
+    const color = this.currentTheme === 'bios' ? 0x00ff00 : 0xffffff;
+    const tempLight = new THREE.RectAreaLight(color, 6, 0.3, 0.2);
     tempLight.position.set(0, 0.2, 1.3);
     tempLight.lookAt(0, 0, 2);
     this.scene.add(tempLight);
@@ -306,13 +327,14 @@ export class ThreeSceneComponent implements AfterViewInit, OnDestroy {
     this.applyEmissiveMaterial();
     this.animateScreenGlow();
 
-    console.log('💡 Tela LIGADA DEFINITIVAMENTE - Emissão verde ativada!');
+    console.log('💡 Tela LIGADA DEFINITIVAMENTE - Emissão ativa!');
   }
 
   private applyEmissiveMaterial(): void {
+    const isBios = this.currentTheme === 'bios';
     const emissiveMaterial = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(0x001100),
-      emissive: new THREE.Color(0x003300),
+      color: new THREE.Color(isBios ? 0x001100 : 0x111111),
+      emissive: new THREE.Color(isBios ? 0x003300 : 0xffffff),
       emissiveIntensity: 0.8,
       transparent: false,
       side: THREE.DoubleSide
@@ -336,6 +358,17 @@ export class ThreeSceneComponent implements AfterViewInit, OnDestroy {
     };
     animateGlow();
   }
+
+  private applyTheme(): void {
+    if (!this.screenMesh) return;
+    const isBios = this.currentTheme === 'bios';
+    if (this.screenMesh.material instanceof THREE.MeshStandardMaterial) {
+      this.screenMesh.material.color.set(isBios ? 0x001100 : 0x111111);
+      this.screenMesh.material.emissive.set(isBios ? 0x003300 : 0xffffff);
+    }
+    const newColor = new THREE.Color(isBios ? 0x00ff00 : 0xffffff);
+    this.screenLights.forEach(light => light.color.set(newColor));
+  }
   //#endregion
 
   //#region Lighting System
@@ -355,7 +388,9 @@ export class ThreeSceneComponent implements AfterViewInit, OnDestroy {
   }
 
   private createScreenLights(): void {
-    const screenEmissionColor = new THREE.Color('#00ff00');
+    const screenEmissionColor = new THREE.Color(
+      this.currentTheme === 'bios' ? '#00ff00' : '#ffffff'
+    );
     
     // Luz frontal da tela
     const screenLight = new THREE.RectAreaLight(screenEmissionColor, 12, 0.5, 0.4);
