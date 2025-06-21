@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationProvider } from '../../providers/navigation.provider';
+import { ProjectService, Projeto } from '../../services/project.service';
 
 @Component({
   selector: 'app-projects',
@@ -10,11 +11,19 @@ import { NavigationProvider } from '../../providers/navigation.provider';
   styleUrl: './projects.component.scss'
 })
 export class ProjectsComponent implements OnInit, OnDestroy {
+  projects: Projeto[] = [];
 
-  constructor(private navigationProvider: NavigationProvider) {}
+  constructor(
+    private navigationProvider: NavigationProvider,
+    private projectService: ProjectService
+  ) {}
 
   ngOnInit() {
     console.log('📋 Tela de projetos carregada - Pressione ESC para voltar');
+    this.projectService.getProjects().subscribe({
+      next: (projects) => (this.projects = projects),
+      error: (err) => console.error('Erro ao carregar projetos', err)
+    });
   }
 
   ngOnDestroy() {
