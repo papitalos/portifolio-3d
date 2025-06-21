@@ -1,11 +1,14 @@
 # Database
 
-SQL script for creating the PostgreSQL schema used by this project.
+This folder contains Knex migrations for creating the PostgreSQL schema.
 
 ## Usage
 
-Execute the `schema.sql` file using a PostgreSQL client, e.g.:
+1. Copy `backend/.env.example` to `backend/.env` and adjust the connection string.
+2. Run the restore script from the repository root:
 
 ```bash
-psql -U postgres -d portfolio -f schema.sql
+npm run restore
 ```
+
+The script will create the database if it does not exist and apply all migrations.
