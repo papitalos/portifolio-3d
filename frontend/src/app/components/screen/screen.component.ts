@@ -16,6 +16,9 @@ export class ScreenComponent implements OnInit, OnDestroy {
   // Componente atual a ser renderizado
   currentComponent: Type<any> | null = null;
 
+  // Tema visual atual
+  currentTheme: string = 'bios';
+
   // Subject para cleanup de subscriptions
   private destroy$ = new Subject<void>();
 
@@ -51,6 +54,7 @@ export class ScreenComponent implements OnInit, OnDestroy {
    */
   private updateCurrentComponent(state: NavigationState) {
     this.currentComponent = state.component;
+    this.currentTheme = state.theme || 'bios';
     console.log(`📺 Renderizando componente: ${state.screenName} (${state.route})`);
     
     // Se houver dados, pode ser útil para componentes filhos
