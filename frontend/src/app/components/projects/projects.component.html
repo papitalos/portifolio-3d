@@ -20,43 +20,27 @@
     <section class="projects-grid">
       <h2>PROJETOS EM DESTAQUE</h2>
 
-      <!-- Project Card Template -->
-      <div class="project-card">
+      <div class="project-card" *ngFor="let project of projects">
         <div class="project-image">
-          <div class="placeholder">PROJETO 1</div>
+          <img
+            *ngIf="project.imagem_capa; else placeholder"
+            [src]="project.imagem_capa"
+            alt="Imagem de {{ project.titulo }}"
+          />
+          <ng-template #placeholder>
+            <div class="placeholder">{{ project.titulo }}</div>
+          </ng-template>
         </div>
         <div class="project-info">
-          <h3>Nome do Projeto</h3>
-          <p>Descrição breve do projeto aqui...</p>
+          <h3>{{ project.titulo }}</h3>
+          <p>{{ project.sumario }}</p>
           <div class="project-tech">
-            <span class="tech-tag">Angular</span>
-            <span class="tech-tag">TypeScript</span>
-            <span class="tech-tag">Three.js</span>
+            <span class="tech-tag" *ngFor="let stack of project.stacks">{{ stack.nome }}</span>
           </div>
           <div class="project-links">
-            <a href="#" class="project-link" (click)="onProjectClick('Projeto 1'); $event.preventDefault()">Ver
+            <a href="#" class="project-link" (click)="onProjectClick(project.titulo); $event.preventDefault()">Ver
               Projeto</a>
-            <a href="#" class="project-link" (click)="onGitHubClick('Projeto 1'); $event.preventDefault()">GitHub</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Add more project cards here -->
-      <div class="project-card">
-        <div class="project-image">
-          <div class="placeholder">PROJETO 2</div>
-        </div>
-        <div class="project-info">
-          <h3>Outro Projeto</h3>
-          <p>Descrição de outro projeto...</p>
-          <div class="project-tech">
-            <span class="tech-tag">React</span>
-            <span class="tech-tag">Node.js</span>
-          </div>
-          <div class="project-links">
-            <a href="#" class="project-link" (click)="onProjectClick('Projeto 2'); $event.preventDefault()">Ver
-              Projeto</a>
-            <a href="#" class="project-link" (click)="onGitHubClick('Projeto 2'); $event.preventDefault()">GitHub</a>
+            <a [href]="project.url_repositorio" target="_blank" class="project-link" (click)="onGitHubClick(project.titulo)">GitHub</a>
           </div>
         </div>
       </div>
