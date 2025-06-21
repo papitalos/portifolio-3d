@@ -22,7 +22,14 @@
 
       <div class="project-card" *ngFor="let project of projects">
         <div class="project-image">
-          <div class="placeholder">{{ project.titulo }}</div>
+          <img
+            *ngIf="project.imagem_capa; else placeholder"
+            [src]="project.imagem_capa"
+            alt="Imagem de {{ project.titulo }}"
+          />
+          <ng-template #placeholder>
+            <div class="placeholder">{{ project.titulo }}</div>
+          </ng-template>
         </div>
         <div class="project-info">
           <h3>{{ project.titulo }}</h3>

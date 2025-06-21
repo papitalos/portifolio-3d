@@ -101,6 +101,14 @@
   
   .project-image {
     margin-bottom: 20px;
+
+    img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 5px;
+      display: block;
+    }
     
     .placeholder {
       background: rgba(0, 255, 0, 0.1);
