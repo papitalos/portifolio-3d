@@ -35,7 +35,16 @@
           <h3>{{ project.titulo }}</h3>
           <p>{{ project.sumario }}</p>
           <div class="project-tech">
-            <span class="tech-tag" *ngFor="let stack of project.stacks">{{ stack.nome }}</span>
+            <ng-container *ngFor="let stack of project.stacks | slice:0:4; let i = index">
+              <span class="tech-tag">{{ stack.nome }}</span>
+              <span class="tech-tag" *ngIf="i === 3 && project.stacks.length > 4">...</span>
+            </ng-container>
+          </div>
+          <div class="project-categories">
+            <ng-container *ngFor="let cat of project.categorias | slice:0:3; let i = index">
+              <span class="cat-tag">{{ cat.nome }}</span>
+              <span class="cat-tag" *ngIf="i === 2 && project.categorias.length > 3">...</span>
+            </ng-container>
           </div>
           <div class="project-links">
             <a href="#" class="project-link" (click)="onProjectClick(project.titulo); $event.preventDefault()">Ver

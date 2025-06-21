@@ -1,0 +1,39 @@
+:host {
+  display: block;
+  --accent-color: #0f0;
+  --accent-rgb: 0, 255, 0;
+  --text-color: #0f0;
+}
+
+:host-context(.projects) {
+  --accent-color: #000;
+  --accent-rgb: 255, 255, 255;
+  --text-color: #000;
+}
+
+.detail-container {
+  padding: 20px;
+  color: var(--text-color);
+
+  h2 {
+    margin-top: 0;
+  }
+
+  img {
+    max-width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .tech-list span,
+  .cat-list span {
+    border: 1px solid var(--accent-color);
+    padding: 4px 8px;
+    margin-right: 6px;
+    margin-bottom: 6px;
+    display: inline-block;
+  }
+
+  .back-btn {
+    margin-bottom: 15px;
+  }
+}
