@@ -10,18 +10,8 @@ This repository contains a personal portfolio project organized into three parts
 
 1. Create the PostgreSQL database using the scripts in `database/`.
 2. Configure the backend by copying `backend/.env.example` to `.env` and adjusting the credentials.
-3. Install project dependencies using [pnpm](https://pnpm.io):
-
-   ```bash
-   pnpm install --recursive
-   ```
-
-4. From the project root, run the frontend and backend together:
-
-   ```bash
-   pnpm start
-   ```
-
-   This command starts `backend` on port 3000 and the Angular development server on port 4200.
+3. Install dependencies in both `frontend` and `backend` directories with your package manager (e.g. `npm install`).
+4. Start the backend server from the `backend` directory: `npm start`.
+5. Start the Angular frontend from the `frontend` directory: `ng serve`.
 
 After both servers are running, open `http://localhost:4200` in your browser.
