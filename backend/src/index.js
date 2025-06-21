@@ -11,6 +11,9 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost:5432/portfolio'
 });
 
+const connectionString = pool.options.connectionString;
+console.log(`Conectando ao banco de dados com a string: ${connectionString}`);
+
 app.get('/api/projetos', async (req, res) => {
   try {
     const query = `
