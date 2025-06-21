@@ -8,12 +8,14 @@
   --accent-color: #0f0;
   --accent-rgb: 0, 255, 0;
   --text-color: #0f0;
+  --text-on-accent: #000;
 }
 
 :host-context(.projects) {
   --accent-color: #000;
   --accent-rgb: 255, 255, 255;
   --text-color: #000;
+  --text-on-accent: #fff;
 }
 
 // Header
@@ -61,13 +63,13 @@
     
     &:hover {
       background: var(--accent-color);
-      color: #000;
+      color: var(--text-on-accent);
       box-shadow: 0 0 20px var(--accent-color);
     }
-    
+
     &.active {
       background: var(--accent-color);
-      color: #000;
+      color: var(--text-on-accent);
       box-shadow: 0 0 15px var(--accent-color);
     }
   }
@@ -195,7 +197,7 @@
       
       &:hover {
         background: var(--accent-color);
-        color: #000;
+        color: var(--text-on-accent);
         box-shadow: 0 0 15px var(--accent-color);
       }
     }
