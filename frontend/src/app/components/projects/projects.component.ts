@@ -56,8 +56,10 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
 
   onProjectClick(projectName: string) {
-    console.log(`🚀 Abrindo projeto: ${projectName}`);
-    // Implementar abertura de projeto aqui
+    const project = this.projects.find(p => p.titulo === projectName);
+    if (project) {
+      this.navigationProvider.navigate('/project-detail', { project });
+    }
   }
 
   onGitHubClick(projectName: string) {
