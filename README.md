@@ -18,9 +18,12 @@ After both servers are running, open `http://localhost:4200` in your browser.
 
 ## API
 
-The backend exposes `GET /api/projetos`. You can filter projects by category
-using the optional `categoria` query parameter:
+The backend exposes two endpoints:
+
+* `GET /api/categorias` – returns the list of project categories.
+* `GET /api/projetos` – list of projects. You can filter by category ID using
+  the optional `categoria` query parameter:
 
 ```bash
-GET /api/projetos?categoria=Web
+GET /api/projetos?categoria=<categoria_id>
 ```

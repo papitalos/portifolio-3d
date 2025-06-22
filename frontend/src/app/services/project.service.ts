@@ -3,20 +3,20 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Stack {
-  id: number;
+  id: string;
   nome: string;
   tipo: string;
   logo_url: string | null;
 }
 
 export interface Categoria {
-  id: number;
+  id: string;
   nome: string;
   descricao: string | null;
 }
 
 export interface Projeto {
-  id: number;
+  id: string;
   titulo: string;
   sumario: string;
   descricao: string;
@@ -33,6 +33,7 @@ export interface Projeto {
 })
 export class ProjectService {
   private apiUrl = 'http://localhost:3000/api/projetos';
+  private catUrl = 'http://localhost:3000/api/categorias';
 
   constructor(private http: HttpClient) {}
 
@@ -42,5 +43,9 @@ export class ProjectService {
       options.params = new HttpParams().set('categoria', categoria);
     }
     return this.http.get<Projeto[]>(this.apiUrl, options);
+  }
+
+  getCategories(): Observable<Categoria[]> {
+    return this.http.get<Categoria[]>(this.catUrl);
   }
 }
