@@ -1,0 +1,28 @@
+<div class="about-container">
+  <div class="info-wrapper">
+    <img src="assets/images/profile.jpg" alt="Minha foto" class="profile-pic" />
+    <ul class="basic-info">
+      <li><strong>nome:</strong> Italo Teofilo Filho</li>
+      <li><strong>origem:</strong> Brasil</li>
+      <li><strong>reside em:</strong> Portuguesa</li>
+      <li><strong>idade:</strong> {{ idade }} anos</li>
+      <li><strong>XXXX:</strong></li>
+    </ul>
+  </div>
+
+  <div class="stack-list">
+    <span class="stack" *ngFor="let tech of stacks">{{ tech }}</span>
+  </div>
+
+  <p class="description">
+    Esta é uma breve descrição sobre mim e minha experiência profissional.
+  </p>
+
+  <div class="timeline">
+    <div class="event">IPCA Barcelos 2022 - Atualmente - licenciatura de Engenharia de desenvolvimento de jogos digitais</div>
+    <div class="event">Cyprus university of technology - 2024 Agos-Dez - ERASMUS de 1 semetre como software engineer</div>
+    <div class="event">IMTS Group - 2024-jun a 2025-fev - Software developer</div>
+  </div>
+
+  <button class="cv-btn" (click)="openCV()">Ver Currículo</button>
+</div>

@@ -15,11 +15,6 @@ export class BiosScreenComponent implements OnInit, OnDestroy {
   constructor(private navigationProvider: NavigationProvider) {}
 
   ngOnInit() {
-    // Habilitar listener de teclado quando a tela estiver ativa
-    setTimeout(() => {
-      this.enableKeyboardListener();
-    }, 3000); // Aguardar 3 segundos após a tela aparecer
-    
     console.log('🖥️ BIOS Screen inicializada');
   }
 
@@ -58,9 +53,9 @@ export class BiosScreenComponent implements OnInit, OnDestroy {
    * Método público para ativar a tela (chamado pelo screen component)
    */
   public activate() {
-    // Aguardar um pouco antes de habilitar o teclado
+    // Habilitar o teclado somente após a animação inicial
     setTimeout(() => {
       this.enableKeyboardListener();
-    }, 2000);
+    }, 3000);
   }
 }

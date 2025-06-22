@@ -1,0 +1,13 @@
+<div class="detail-container" *ngIf="project">
+  <button class="back-btn" (click)="goBack()">Voltar</button>
+  <h2>{{ project.titulo }}</h2>
+  <img *ngIf="project.imagem_capa" [src]="project.imagem_capa" alt="Imagem" />
+  <p class="sumario">{{ project.sumario }}</p>
+  <div class="tech-list">
+    <span *ngFor="let stack of project.stacks">{{ stack.nome }}</span>
+  </div>
+  <div class="cat-list">
+    <span *ngFor="let cat of project.categorias">{{ cat.nome }}</span>
+  </div>
+  <p class="descricao">{{ project.descricao }}</p>
+</div>

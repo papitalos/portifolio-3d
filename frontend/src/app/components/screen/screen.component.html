@@ -1,4 +1,4 @@
-<div class="screen-overlay" [class.active]="isActive">
+<div class="screen-overlay" [class.active]="isActive" [ngClass]="currentTheme">
   <div class="screen-content">
     <!-- Renderização dinâmica do componente baseado na rota atual -->
     <ng-container *ngComponentOutlet="currentComponent"></ng-container>

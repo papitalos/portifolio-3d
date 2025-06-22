@@ -7,12 +7,14 @@ export interface NavigationState {
   route: string;
   data: any;
   component: Type<any>;
+  theme?: string;
 }
 
 export interface RouteConfig {
   route: string;
   component: Type<any>;
   name: string;
+  theme?: string;
 }
 
 @Injectable({
@@ -25,7 +27,8 @@ export class NavigationProvider {
     screenName: 'bios',
     route: '/bios',
     data: {},
-    component: null as any // Será definido após registro das rotas
+    component: null as any, // Será definido após registro das rotas
+    theme: 'bios'
   });
 
   public currentState$: Observable<NavigationState> = this.navigationState.asObservable();
@@ -45,7 +48,8 @@ export class NavigationProvider {
     if (routeConfig.route === '/bios' && !this.navigationState.value.component) {
       this.updateNavigationState({
         ...this.navigationState.value,
-        component: routeConfig.component
+        component: routeConfig.component,
+        theme: routeConfig.theme
       });
     }
   }
@@ -72,7 +76,8 @@ export class NavigationProvider {
       screenName: routeConfig.name,
       route: route,
       data: data,
-      component: routeConfig.component
+      component: routeConfig.component,
+      theme: routeConfig.theme
     };
 
     this.updateNavigationState(newState);

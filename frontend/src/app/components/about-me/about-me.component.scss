@@ -1,0 +1,97 @@
+:host {
+  display: block;
+  --accent-color: #0f0;
+  --accent-rgb: 0, 255, 0;
+  --text-color: #0f0;
+  --text-on-accent: #000;
+}
+
+:host-context(.projects) {
+  --accent-color: #000;
+  --accent-rgb: 255, 255, 255;
+  --text-color: #000;
+  --text-on-accent: #fff;
+}
+
+.about-container {
+  color: var(--text-color);
+  padding: 20px;
+}
+
+.info-wrapper {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.profile-pic {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid var(--accent-color);
+}
+
+.basic-info {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    margin-bottom: 6px;
+  }
+}
+
+.stack-list {
+  margin: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  .stack {
+    border: 1px solid var(--accent-color);
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+}
+
+.description {
+  margin-bottom: 20px;
+}
+
+.timeline {
+  border-left: 2px solid var(--accent-color);
+  padding-left: 15px;
+  margin-bottom: 20px;
+
+  .event {
+    margin-bottom: 10px;
+    position: relative;
+  }
+
+  .event::before {
+    content: '';
+    position: absolute;
+    left: -7px;
+    top: 4px;
+    width: 10px;
+    height: 10px;
+    background: var(--accent-color);
+    border-radius: 50%;
+  }
+}
+
+.cv-btn {
+  padding: 8px 16px;
+  border: 1px solid var(--accent-color);
+  background: transparent;
+  color: var(--accent-color);
+  cursor: pointer;
+  transition: background 0.3s;
+
+  &:hover {
+    background: var(--accent-color);
+    color: var(--text-on-accent);
+  }
+}
