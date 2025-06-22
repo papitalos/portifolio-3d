@@ -9,6 +9,7 @@
   --accent-rgb: 0, 255, 0;
   --text-color: #0f0;
   --text-on-accent: #000;
+
 }
 
 :host-context(.projects) {
@@ -16,6 +17,7 @@
   --accent-rgb: 255, 255, 255;
   --text-color: #000;
   --text-on-accent: #fff;
+
 }
 
 // Header

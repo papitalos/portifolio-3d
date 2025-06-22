@@ -84,6 +84,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   selectCategory(cat: string | null) {
     this.selectedCategory = cat;
     this.showFilter = false;
+
   }
 
   onGitHubClick(projectName: string) {

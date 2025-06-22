@@ -7,6 +7,7 @@ import { ProjectsComponent } from '../components/projects/projects.component';
 import { ProjectDetailComponent } from '../components/project-detail/project-detail.component';
 import { AboutMeComponent } from '../components/about-me/about-me.component';
 
+
 /**
  * Configuração central de todas as rotas da aplicação
  * Este arquivo registra todos os componentes de tela disponíveis
@@ -35,6 +36,7 @@ export const APP_ROUTES: RouteConfig[] = [
     component: AboutMeComponent,
     name: 'about-me',
     theme: 'projects'
+
   }
 ];
 
