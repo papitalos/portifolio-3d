@@ -80,6 +80,7 @@ app.get('/api/categorias', async (req, res) => {
     const { rows } = await pool.query(
       'SELECT id, nome, descricao FROM categorias ORDER BY nome'
     );
+
     res.json(rows);
   } catch (err) {
     console.error(err);

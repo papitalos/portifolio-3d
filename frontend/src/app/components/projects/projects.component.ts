@@ -25,6 +25,11 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.projectService.getProjects(cat).subscribe({
       next: (projects) => {
         this.projects = projects;
+        if (!this.categories.length || !cat) {
+          const set = new Set<string>();
+          projects.forEach(p => p.categorias.forEach(c => set.add(c.nome)));
+          this.categories = Array.from(set);
+        }
       },
       error: (err) => console.error('Erro ao carregar projetos', err)
     });

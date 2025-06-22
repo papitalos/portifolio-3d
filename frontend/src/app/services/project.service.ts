@@ -47,5 +47,6 @@ export class ProjectService {
 
   getCategories(): Observable<Categoria[]> {
     return this.http.get<Categoria[]>(this.catUrl);
+
   }
 }
