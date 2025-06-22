@@ -59,8 +59,7 @@ app.get('/api/projetos', async (req, res) => {
       query += `
       WHERE EXISTS (
         SELECT 1 FROM projeto_categoria pc2
-        JOIN categorias c2 ON pc2.categoria_id = c2.id
-        WHERE pc2.projeto_id = p.id AND c2.nome = $1
+        WHERE pc2.projeto_id = p.id AND pc2.categoria_id = $1
       )`;
     }
 
@@ -69,6 +68,19 @@ app.get('/api/projetos', async (req, res) => {
       ORDER BY p.id;`;
 
     const { rows } = await pool.query(query, params);
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.get('/api/categorias', async (req, res) => {
+  try {
+    const { rows } = await pool.query(
+      'SELECT id, nome, descricao FROM categorias ORDER BY nome'
+    );
+
     res.json(rows);
   } catch (err) {
     console.error(err);
