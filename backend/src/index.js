@@ -18,7 +18,8 @@ console.log(`Conectando ao banco de dados com a string: ${connectionString}`);
 
 app.get('/api/projetos', async (req, res) => {
   try {
-    const query = `
+    const { categoria } = req.query;
+    let query = `
       SELECT
         p.id,
         p.titulo,
@@ -50,11 +51,24 @@ app.get('/api/projetos', async (req, res) => {
       LEFT JOIN stacks s ON ps.stack_id = s.id
       LEFT JOIN projeto_categoria pc ON pc.projeto_id = p.id
       LEFT JOIN categorias c ON pc.categoria_id = c.id
-      GROUP BY p.id
-      ORDER BY p.id;
     `;
 
-    const { rows } = await pool.query(query);
+    const params = [];
+    if (categoria) {
+      params.push(categoria);
+      query += `
+      WHERE EXISTS (
+        SELECT 1 FROM projeto_categoria pc2
+        JOIN categorias c2 ON pc2.categoria_id = c2.id
+        WHERE pc2.projeto_id = p.id AND c2.nome = $1
+      )`;
+    }
+
+    query += `
+      GROUP BY p.id
+      ORDER BY p.id;`;
+
+    const { rows } = await pool.query(query, params);
     res.json(rows);
   } catch (err) {
     console.error(err);

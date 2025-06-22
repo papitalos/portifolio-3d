@@ -21,17 +21,23 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     private projectService: ProjectService
   ) {}
 
-  ngOnInit() {
-    console.log('📋 Tela de projetos carregada - Pressione ESC para voltar');
-    this.projectService.getProjects().subscribe({
+  private loadProjects(cat?: string | null) {
+    this.projectService.getProjects(cat).subscribe({
       next: (projects) => {
         this.projects = projects;
-        const set = new Set<string>();
-        projects.forEach(p => p.categorias.forEach(c => set.add(c.nome)));
-        this.categories = Array.from(set);
+        if (!this.categories.length || !cat) {
+          const set = new Set<string>();
+          projects.forEach(p => p.categorias.forEach(c => set.add(c.nome)));
+          this.categories = Array.from(set);
+        }
       },
       error: (err) => console.error('Erro ao carregar projetos', err)
     });
+  }
+
+  ngOnInit() {
+    console.log('📋 Tela de projetos carregada - Pressione ESC para voltar');
+    this.loadProjects();
   }
 
   ngOnDestroy() {
@@ -84,7 +90,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   selectCategory(cat: string | null) {
     this.selectedCategory = cat;
     this.showFilter = false;
-
+    this.loadProjects(cat);
   }
 
   onGitHubClick(projectName: string) {
