@@ -18,7 +18,8 @@ console.log(`Conectando ao banco de dados com a string: ${connectionString}`);
 
 app.get('/api/projetos', async (req, res) => {
   try {
-    const query = `
+    const { categoria } = req.query;
+    let query = `
       SELECT
         p.id,
         p.titulo,
@@ -50,11 +51,35 @@ app.get('/api/projetos', async (req, res) => {
       LEFT JOIN stacks s ON ps.stack_id = s.id
       LEFT JOIN projeto_categoria pc ON pc.projeto_id = p.id
       LEFT JOIN categorias c ON pc.categoria_id = c.id
-      GROUP BY p.id
-      ORDER BY p.id;
     `;
 
-    const { rows } = await pool.query(query);
+    const params = [];
+    if (categoria) {
+      params.push(categoria);
+      query += `
+      WHERE EXISTS (
+        SELECT 1 FROM projeto_categoria pc2
+        WHERE pc2.projeto_id = p.id AND pc2.categoria_id = $1
+      )`;
+    }
+
+    query += `
+      GROUP BY p.id
+      ORDER BY p.id;`;
+
+    const { rows } = await pool.query(query, params);
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.get('/api/categorias', async (req, res) => {
+  try {
+    const { rows } = await pool.query(
+      'SELECT id, nome, descricao FROM categorias ORDER BY nome'
+    );
     res.json(rows);
   } catch (err) {
     console.error(err);

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationProvider } from '../../providers/navigation.provider';
-import { ProjectService, Projeto } from '../../services/project.service';
+import { ProjectService, Projeto, Categoria } from '../../services/project.service';
 
 @Component({
   selector: 'app-projects',
@@ -12,7 +12,7 @@ import { ProjectService, Projeto } from '../../services/project.service';
 })
 export class ProjectsComponent implements OnInit, OnDestroy {
   projects: Projeto[] = [];
-  categories: string[] = [];
+  categories: Categoria[] = [];
   selectedCategory: string | null = null;
   showFilter = false;
 
@@ -21,17 +21,26 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     private projectService: ProjectService
   ) {}
 
-  ngOnInit() {
-    console.log('📋 Tela de projetos carregada - Pressione ESC para voltar');
-    this.projectService.getProjects().subscribe({
+  private loadProjects(cat?: string | null) {
+    this.projectService.getProjects(cat).subscribe({
       next: (projects) => {
         this.projects = projects;
-        const set = new Set<string>();
-        projects.forEach(p => p.categorias.forEach(c => set.add(c.nome)));
-        this.categories = Array.from(set);
       },
       error: (err) => console.error('Erro ao carregar projetos', err)
     });
+  }
+
+  private loadCategories() {
+    this.projectService.getCategories().subscribe({
+      next: (cats) => (this.categories = cats),
+      error: (err) => console.error('Erro ao carregar categorias', err)
+    });
+  }
+
+  ngOnInit() {
+    console.log('📋 Tela de projetos carregada - Pressione ESC para voltar');
+    this.loadCategories();
+    this.loadProjects();
   }
 
   ngOnDestroy() {
@@ -73,7 +82,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   get filteredProjects(): Projeto[] {
     if (!this.selectedCategory) return this.projects;
     return this.projects.filter(p =>
-      p.categorias.some(c => c.nome === this.selectedCategory)
+      p.categorias.some(c => c.id === this.selectedCategory)
     );
   }
 
@@ -84,7 +93,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   selectCategory(cat: string | null) {
     this.selectedCategory = cat;
     this.showFilter = false;
-
+    this.loadProjects(cat);
   }
 
   onGitHubClick(projectName: string) {

@@ -15,3 +15,15 @@ This repository contains a personal portfolio project organized into three parts
 5. Start the Angular frontend from the `frontend` directory: `ng serve`.
 
 After both servers are running, open `http://localhost:4200` in your browser.
+
+## API
+
+The backend exposes two endpoints:
+
+* `GET /api/categorias` – returns the list of project categories.
+* `GET /api/projetos` – list of projects. You can filter by category ID using
+  the optional `categoria` query parameter:
+
+```bash
+GET /api/projetos?categoria=<categoria_id>
+```

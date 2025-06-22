@@ -17,8 +17,8 @@
         <button class="filter-btn" (click)="toggleFilter()">Filtro</button>
         <div class="filter-dropdown" *ngIf="showFilter">
           <button (click)="selectCategory(null)">Todos</button>
-          <button *ngFor="let cat of categories" (click)="selectCategory(cat)">
-            {{ cat }}
+          <button *ngFor="let cat of categories" (click)="selectCategory(cat.id)">
+            {{ cat.nome }}
           </button>
         </div>
       </div>
