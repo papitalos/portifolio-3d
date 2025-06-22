@@ -5,6 +5,8 @@ import { Type } from '@angular/core';
 import { BiosScreenComponent } from '../components/bios-screen/bios-screen.component';
 import { ProjectsComponent } from '../components/projects/projects.component';
 import { ProjectDetailComponent } from '../components/project-detail/project-detail.component';
+import { AboutMeComponent } from '../components/about-me/about-me.component';
+
 
 /**
  * Configuração central de todas as rotas da aplicação
@@ -28,6 +30,13 @@ export const APP_ROUTES: RouteConfig[] = [
     component: ProjectDetailComponent,
     name: 'project-detail',
     theme: 'projects'
+  },
+  {
+    route: '/about',
+    component: AboutMeComponent,
+    name: 'about-me',
+    theme: 'projects'
+
   }
 ];
 

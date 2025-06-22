@@ -12,6 +12,9 @@ import { ProjectService, Projeto } from '../../services/project.service';
 })
 export class ProjectsComponent implements OnInit, OnDestroy {
   projects: Projeto[] = [];
+  categories: string[] = [];
+  selectedCategory: string | null = null;
+  showFilter = false;
 
   constructor(
     private navigationProvider: NavigationProvider,
@@ -21,7 +24,12 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     console.log('📋 Tela de projetos carregada - Pressione ESC para voltar');
     this.projectService.getProjects().subscribe({
-      next: (projects) => (this.projects = projects),
+      next: (projects) => {
+        this.projects = projects;
+        const set = new Set<string>();
+        projects.forEach(p => p.categorias.forEach(c => set.add(c.nome)));
+        this.categories = Array.from(set);
+      },
       error: (err) => console.error('Erro ao carregar projetos', err)
     });
   }
@@ -49,7 +57,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     if (section === 'projects') {
       this.navigationProvider.navigate('/projects');
     } else if (section === 'sobre') {
-      this.navigationProvider.navigate('/sobre');
+      this.navigationProvider.navigate('/about');
     } else if (section === 'contato') {
       this.navigationProvider.navigate('/contato');
     }
@@ -60,6 +68,23 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     if (project) {
       this.navigationProvider.navigate('/project-detail', { project });
     }
+  }
+
+  get filteredProjects(): Projeto[] {
+    if (!this.selectedCategory) return this.projects;
+    return this.projects.filter(p =>
+      p.categorias.some(c => c.nome === this.selectedCategory)
+    );
+  }
+
+  toggleFilter() {
+    this.showFilter = !this.showFilter;
+  }
+
+  selectCategory(cat: string | null) {
+    this.selectedCategory = cat;
+    this.showFilter = false;
+
   }
 
   onGitHubClick(projectName: string) {

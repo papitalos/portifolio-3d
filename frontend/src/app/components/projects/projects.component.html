@@ -12,6 +12,16 @@
         <button class="nav-btn" (click)="onNavClick('contato')">CONTATO</button>
         <a class="nav-btn" href="https://github.com/papitalos" target="_blank">GITHUB</a>
       </nav>
+
+      <div class="filter-section">
+        <button class="filter-btn" (click)="toggleFilter()">Filtro</button>
+        <div class="filter-dropdown" *ngIf="showFilter">
+          <button (click)="selectCategory(null)">Todos</button>
+          <button *ngFor="let cat of categories" (click)="selectCategory(cat)">
+            {{ cat }}
+          </button>
+        </div>
+      </div>
   
 
   <!-- Main Content Area -->
@@ -20,7 +30,7 @@
     <section class="projects-grid">
       <h2>PROJETOS EM DESTAQUE</h2>
 
-      <div class="project-card" *ngFor="let project of projects">
+      <div class="project-card" *ngFor="let project of filteredProjects">
         <div class="project-image">
           <img
             *ngIf="project.imagem_capa; else placeholder"
