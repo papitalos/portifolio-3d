@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Stack {
@@ -36,7 +36,11 @@ export class ProjectService {
 
   constructor(private http: HttpClient) {}
 
-  getProjects(): Observable<Projeto[]> {
-    return this.http.get<Projeto[]>(this.apiUrl);
+  getProjects(categoria?: string | null): Observable<Projeto[]> {
+    let options: { params?: HttpParams } = {};
+    if (categoria) {
+      options.params = new HttpParams().set('categoria', categoria);
+    }
+    return this.http.get<Projeto[]>(this.apiUrl, options);
   }
 }
